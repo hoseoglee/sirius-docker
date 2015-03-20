@@ -17,7 +17,7 @@ RUN apt-get install -y \
 RUN sudo pip install --upgrade pip
 RUN sudo pip install --upgrade virtualenv 
 RUN aptitude install -y sox
-RUN pip install picledb
+RUN pip install pickledb
 
 #Download sirius from github
 RUN git clone https://github.com/hoseoglee/sirius.git /opt/sirius
