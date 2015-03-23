@@ -1,40 +1,46 @@
 FROM ubuntu:12.04
 MAINTAINER Hoseog Lee <hoseog@gmail.com>
 
-ENV DEBIAN_FRONTEND noninteractive 
+ENV DEBIAN_FRONTEND noninteractive
+ENV SIRIUS_HOME /opt/sirius
+RUN export SIRIUS_HOME=$SIRIUS_HOME 
 
-RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise-updates main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise-backports main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise-security main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise main restricted universe multiverse" >> /etc/apt/sources.list;\
+	echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise-updates main restricted universe multiverse" >> /etc/apt/sources.list;\
+	echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise-backports main restricted universe multiverse" >> /etc/apt/sources.list;\
+	echo "deb mirror://mirrors.ubuntu.com/mirrors.txt precise-security main restricted universe multiverse" >> /etc/apt/sources.list
 
-RUN apt-get update
-RUN apt-get install -y \
-    apt-utils git wget unzip \
-    libfaac-dev vim sudo aptitude \
-    python-pip python-dev \
-    build-essential
-RUN sudo pip install --upgrade pip
-RUN sudo pip install --upgrade virtualenv 
-RUN aptitude install -y sox
+RUN apt-get update;\
+	apt-get install -y \
+	apt-utils \
+	git wget unzip \
+	libfaac-dev vim sudo aptitude \
+	python-pip python-dev \
+	build-essential
+RUN pip install --upgrade pip
+RUN pip install --upgrade virtualenv
 RUN pip install pickledb
+RUN aptitude install -y sox
 
-#Download sirius from github
-RUN git clone https://github.com/hoseoglee/sirius.git /opt/sirius
+###Download sirius source
+##from github
+RUN git clone https://github.com/hoseoglee/sirius.git $SIRIUS_HOME
+
+##from local copy
+#ADD ./sirius/* $SIRIUS_HOME/
 
 #Setting up sirius
-WORKDIR /opt/sirius/sirius-application
+WORKDIR $SIRIUS_HOME/sirius-application
 RUN ./get-dependencies.sh
 RUN ./get-kaldi.sh
 RUN ./get-opencv.sh
 #RUN ./compile-sirius-servers.sh
 
 #Automatic Speech Recognition(ASR)
-#RUN /opt/sirius/sirius-application/run-scripts/start-asr-server.sh
+#RUN $SIRIUS_HOME/sirius-application/run-scripts/start-asr-server.sh
 
 #Image Matching(IMM)
-#RUN /opt/sirius/sirius-application/image-matching/make-db.py landmarks /opt/sirius/sirius-application/image-matching/matching/landmarks/db/
-#RUN /opt/sirius/sirius-application/image-matching/start-imm-server.sh
+#RUN $SIRIUS_HOME/sirius-application/image-matching/make-db.py landmarks $SIRIUS_HOME/sirius-application/image-matching/matching/landmarks/db/
+#RUN $SIRIUS_HOME/sirius-application/image-matching/start-imm-server.sh
 
 #Question-Answering System(QA)
-
