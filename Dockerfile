@@ -15,26 +15,23 @@ RUN apt-get update;\
 	apt-utils \
 	git wget unzip \
 	libfaac-dev vim sudo aptitude \
-	python-pip python-dev \
+	python-pip python-dev subversion\
 	build-essential
 RUN pip install --upgrade pip
 RUN pip install --upgrade virtualenv
 RUN pip install pickledb
 RUN aptitude install -y sox
 
-###Download sirius source
-##from github
-RUN git clone https://github.com/hoseoglee/sirius.git $SIRIUS_HOME
+#Download sirius source
+RUN git clone https://github.com/jhauswald/sirius.git $SIRIUS_HOME
 
-##from local copy
-#ADD ./sirius/* $SIRIUS_HOME/
 
 #Setting up sirius
 WORKDIR $SIRIUS_HOME/sirius-application
 RUN ./get-dependencies.sh
 RUN ./get-kaldi.sh
 RUN ./get-opencv.sh
-#RUN ./compile-sirius-servers.sh
+RUN ./compile-sirius-servers.sh
 
 #Automatic Speech Recognition(ASR)
 #RUN $SIRIUS_HOME/sirius-application/run-scripts/start-asr-server.sh
