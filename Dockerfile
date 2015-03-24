@@ -31,7 +31,7 @@ WORKDIR $SIRIUS_HOME/sirius-application
 RUN ./get-dependencies.sh
 RUN ./get-kaldi.sh
 RUN ./get-opencv.sh
-RUN ./compile-sirius-servers.sh
+#RUN ./compile-sirius-servers.sh
 
 #Automatic Speech Recognition(ASR)
 #RUN $SIRIUS_HOME/sirius-application/run-scripts/start-asr-server.sh
