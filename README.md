@@ -7,6 +7,9 @@ please reference for resizing (http://stackoverflow.com/questions/26546490/resiz
 
 ## Download the source files
 * [github. https://github.com/hoseoglee/sirius-docker](https://github.com/hoseoglee/sirius-docker)
+```
+$ git clone https://github.com/hoseoglee/sirius-docker.git
+```
 
 ## Build the image
 If you'd like to try directly from the Dockerfile you can build the image as:
